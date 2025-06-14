@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Upload pliku do Azure</title>
+</head>
+<body>
+  <h2>Wgraj plik</h2>
+  <input type="file" id="fileInput" />
+  <button onclick="uploadFile()">Prześlij</button>
+  <p id="status"></p>
+
+  <script>
+    async function uploadFile() {
+      const fileInput = document.getElementById('fileInput');
+      if (fileInput.files.length === 0) {
+        alert("Wybierz plik.");
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append("file", fileInput.files[0]);
+
+      const response = await fetch("/upload", {
+        method: "POST",
+        body: formData
+      });
+
+      const statusText = await response.text();
+      document.getElementById("status").textContent = statusText;
+    }
+  </script>
+</body>
+</html>
